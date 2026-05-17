@@ -1,0 +1,437 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Vocabulary Learner</title>
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-blue: #38bdf8;
+            --accent-green: #34d399;
+            --btn-bg: #2563eb;
+            --btn-hover: #1d4ed8;
+            --blur-bg: rgba(15, 23, 42, 0.6);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            perspective: 1000px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            color: var(--text-primary);
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            min-height: 380px;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .word-section {
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 20px;
+            position: relative;
+        }
+
+        .word {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+            cursor: pointer;
+            display: inline-block;
+            transition: color 0.2s ease;
+        }
+        
+        .word:hover {
+            color: var(--accent-blue);
+        }
+
+        .sentence-section {
+            background: rgba(15, 23, 42, 0.3);
+            padding: 20px;
+            border-radius: 16px;
+            border-left: 4px solid var(--accent-blue);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sentence-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+
+        .audio-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            width: 28px;
+            height: 28px;
+        }
+
+        .audio-btn:hover {
+            color: var(--accent-blue);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .sentence {
+            font-size: 1.15rem;
+            line-height: 1.6;
+            color: #e2e8f0;
+            padding-right: 10px;
+        }
+
+        .answer-section {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: auto;
+        }
+
+        .meaning-box, .synonym-box {
+            position: relative;
+            background: rgba(15, 23, 42, 0.4);
+            padding: 16px;
+            border-radius: 12px;
+            overflow: hidden;
+            min-height: 56px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .meaning, .synonym {
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: filter 0.3s ease, opacity 0.3s ease;
+        }
+
+        .masked {
+            filter: blur(8px);
+            user-select: none;
+            opacity: 0.2;
+        }
+
+        .mask-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--blur-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .controls {
+            display: flex;
+            gap: 16px;
+            margin-top: 30px;
+            width: 100%;
+        }
+
+        button.control-btn {
+            flex: 1;
+            padding: 16px 24px;
+            border: none;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-action {
+            background: var(--btn-bg);
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-action:hover {
+            background: var(--btn-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-next {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-next:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 30px 20px;
+                min-height: 420px;
+            }
+            .word {
+                font-size: 2.2rem;
+            }
+            .sentence {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>Vocabulary Builder</h1>
+            <p>Intermediate Level</p>
+        </div>
+
+        <div class="card" id="card">
+            <div class="word-section">
+                <div class="word" id="word" onclick="speakText(this.textContent)">allocate</div>
+            </div>
+
+            <div class="sentence-section">
+                <div class="sentence-header">
+                    <div class="section-label">Example Sentence</div>
+                    <button class="audio-btn" onclick="speakCurrentSentence()" title="Listen to sentence">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                    </button>
+                </div>
+                <div class="sentence" id="sentence">The government will allocate more funds to education.</div>
+            </div>
+
+            <div class="answer-section">
+                <div>
+                    <div class="section-label">Meaning</div>
+                    <div class="meaning-box" onclick="revealAnswers()">
+                        <div class="meaning masked" id="meaning">割り当てる、配分する</div>
+                        <div class="mask-overlay" id="meaningMask">Tap to reveal</div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="section-label">Synonym</div>
+                    <div class="synonym-box" onclick="revealAnswers()">
+                        <div class="synonym masked" id="synonym">assign, distribute</div>
+                        <div class="mask-overlay" id="synonymMask">Tap to reveal</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="control-btn btn-action" id="actionBtn" onclick="revealAnswers()">Show Answer</button>
+            <button class="control-btn btn-next" onclick="nextWord()">Next Word →</button>
+        </div>
+    </div>
+
+    <script>
+        const vocabularyData = [
+            { word: "allocate", meaning: "割り当てる、配分する", synonym: "assign, distribute", sentence: "The government will allocate more funds to education." },
+            { word: "bias", meaning: "偏見、先入観", synonym: "prejudice, partiality", sentence: "We must avoid any personal bias in the recruitment process." },
+            { word: "comprise", meaning: "構成される、含む", synonym: "consist of, include", sentence: "The committee is comprised of ten members." },
+            { word: "discreet", meaning: "慎重な、控えめな", synonym: "cautious, subtle", sentence: "She made some discreet inquiries about the company's financial status." },
+            { word: "extinguish", meaning: "（火を）消す、絶やす", synonym: "quench, put out", sentence: "It took several hours to extinguish the fire." },
+            { word: "fluctuate", meaning: "変動する、上下する", synonym: "vary, wave", sentence: "The exchange rate tends to fluctuate daily." },
+            { word: "incorporate", meaning: "取り入れる、組み込む", synonym: "include, integrate", sentence: "We should incorporate more exercise into our daily routine." },
+            { word: "legendary", meaning: "伝説的な", synonym: "mythical, famous", sentence: "The artist has become a legendary figure in his own lifetime." },
+            { word: "occurrence", meaning: "出来事、発生", synonym: "event, incident", sentence: "Earthquakes are a common occurrence in this region." },
+            { word: "prescribe", meaning: "処方する、規定する", synonym: "advise, stipulate", sentence: "The doctor will prescribe some medicine for your cough." },
+            { word: "attain", meaning: "達成する、獲得する", synonym: "achieve, accomplish", sentence: "He worked hard to attain his goal." },
+            { word: "capacity", meaning: "収容能力、能力", synonym: "ability, volume", sentence: "The stadium has a seating capacity of 50,000." },
+            { word: "diminish", meaning: "減少する、衰える", synonym: "decrease, decline", sentence: "The pain will gradually diminish." },
+            { word: "efficient", meaning: "効率的な", synonym: "productive, effective", sentence: "We need a more efficient way to work." },
+            { word: "furthermore", meaning: "さらに、その上", synonym: "moreover, besides", sentence: "The house is beautiful; furthermore, it's affordable." },
+            { word: "hypothesis", meaning: "仮説", synonym: "theory, assumption", sentence: "The experiment supported the initial hypothesis." },
+            { word: "interpret", meaning: "解釈する、通訳する", synonym: "explain, translate", sentence: "How do you interpret this poem?" },
+            { word: "leverage", meaning: "活用する、てこの作用", synonym: "utilize, exploit", sentence: "We can leverage our expertise to gain an advantage." },
+            { word: "noteworthy", meaning: "注目すべき", synonym: "remarkable, significant", sentence: "There is a noteworthy difference between them." },
+            { word: "objective", meaning: "目的、客観的な", synonym: "goal, impartial", sentence: "Our primary objective is to improve quality." },
+            { word: "ambiguous", meaning: "曖昧な、多義的な", synonym: "vague, unclear", sentence: "His reply to my question was somewhat ambiguous." },
+            { word: "coherent", meaning: "一貫した、筋の通った", synonym: "logical, consistent", sentence: "She failed to provide a coherent explanation for her actions." },
+            { word: "deprive", meaning: "奪う、拒む", synonym: "strip, dispossess", sentence: "You should not deprive yourself of sleep." },
+            { word: "extract", meaning: "抽出する、引き出す", synonym: "remove, pull out", sentence: "They used a new method to extract oil from the ground." },
+            { word: "fundamental", meaning: "基本的な、根本的な", synonym: "basic, essential", sentence: "There is a fundamental difference between the two theories." }
+        ];
+
+        let currentIndex = 0;
+        let isRevealed = false;
+
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                
+                const voices = window.speechSynthesis.getVoices();
+                const enVoice = voices.find(voice => voice.lang.startsWith('en-'));
+                if (enVoice) {
+                    utterance.voice = enVoice;
+                }
+                
+                utterance.rate = 0.9;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function speakCurrentSentence() {
+            const currentItem = vocabularyData[currentIndex];
+            speakText(currentItem.sentence);
+        }
+
+        function updateCard() {
+            const currentItem = vocabularyData[currentIndex];
+            const card = document.getElementById('card');
+            
+            card.style.opacity = 0;
+            card.style.transform = 'translateY(10px) scale(0.98)';
+            
+            setTimeout(() => {
+                document.getElementById('word').textContent = currentItem.word;
+                document.getElementById('sentence').textContent = currentItem.sentence;
+                document.getElementById('meaning').textContent = currentItem.meaning;
+                document.getElementById('synonym').textContent = currentItem.synonym;
+
+                document.getElementById('meaning').classList.add('masked');
+                document.getElementById('synonym').classList.add('masked');
+                document.getElementById('meaningMask').classList.remove('hidden');
+                document.getElementById('synonymMask').classList.remove('hidden');
+                
+                document.getElementById('actionBtn').textContent = "Show Answer";
+                isRevealed = false;
+
+                card.style.opacity = 1;
+                card.style.transform = 'translateY(0) scale(1)';
+                
+                setTimeout(() => {
+                    speakText(currentItem.word);
+                }, 300);
+                
+            }, 200);
+        }
+
+        function revealAnswers() {
+            if (isRevealed) return;
+
+            document.getElementById('meaning').classList.remove('masked');
+            document.getElementById('synonym').classList.remove('masked');
+            document.getElementById('meaningMask').classList.add('hidden');
+            document.getElementById('synonymMask').classList.add('hidden');
+            
+            document.getElementById('actionBtn').textContent = "Confirmed";
+            isRevealed = true;
+        }
+
+        function nextWord() {
+            let nextIndex = currentIndex;
+            while (nextIndex === currentIndex) {
+                nextIndex = Math.floor(Math.random() * vocabularyData.length);
+            }
+            currentIndex = nextIndex;
+            updateCard();
+        }
+
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.onvoiceschanged = function() {};
+        }
+
+        window.onload = function() {
+            nextWord();
+        };
+    </script>
+</body>
+</html>
