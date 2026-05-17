@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -33,7 +33,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 15px; /* 画面端の余白を少し縮小 */
             overflow-x: hidden;
         }
 
@@ -45,57 +45,65 @@
 
         .header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 15px; /* 縦方向を縮めるためマージンを縮小 */
         }
 
         .header h1 {
-            font-size: 1.8rem;
+            font-size: 1.6rem; /* 少しコンパクトに */
             font-weight: 600;
             letter-spacing: 0.05em;
             color: var(--text-primary);
-            margin-bottom: 5px;
+            margin-bottom: 2px;
         }
 
         .header p {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--accent-blue);
             text-transform: uppercase;
             letter-spacing: 0.1em;
         }
 
+        /* 進行状況を表示する小さなカウンタ */
+        .counter {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
         .card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
-            border-radius: 24px;
-            padding: 40px 30px;
+            border-radius: 20px; /* 少しシャープに */
+            padding: 30px 24px; /* 縦パディングを縮小 */
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
             display: flex;
             flex-direction: column;
-            gap: 24px;
-            min-height: 380px;
+            gap: 18px; /* 要素間の隙間を詰め、全体をコンパクトに */
+            min-height: 340px; /* 縦幅を数％縮小 */
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.4);
         }
 
         .word-section {
             text-align: center;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            padding-bottom: 20px;
-            position: relative;
+            padding-bottom: 14px;
         }
 
         .word {
-            font-size: 2.8rem;
+            font-size: 2.4rem; /* 縦幅に余裕を持たせるため少し縮小 */
             font-weight: 700;
             color: var(--text-primary);
             letter-spacing: -0.02em;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
             cursor: pointer;
             display: inline-block;
             transition: color 0.2s ease;
@@ -107,10 +115,9 @@
 
         .sentence-section {
             background: rgba(15, 23, 42, 0.3);
-            padding: 20px;
-            border-radius: 16px;
+            padding: 16px;
+            border-radius: 12px;
             border-left: 4px solid var(--accent-blue);
-            position: relative;
             display: flex;
             flex-direction: column;
         }
@@ -119,11 +126,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .section-label {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 0.1em;
             color: var(--accent-blue);
@@ -141,8 +148,8 @@
             align-items: center;
             justify-content: center;
             transition: all 0.2s ease;
-            width: 28px;
-            height: 28px;
+            width: 24px;
+            height: 24px;
         }
 
         .audio-btn:hover {
@@ -151,33 +158,33 @@
         }
 
         .sentence {
-            font-size: 1.15rem;
-            line-height: 1.6;
+            font-size: 1.05rem;
+            line-height: 1.5;
             color: #e2e8f0;
-            padding-right: 10px;
+            padding-right: 5px;
         }
 
         .answer-section {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 12px;
             margin-top: auto;
         }
 
         .meaning-box, .synonym-box {
             position: relative;
             background: rgba(15, 23, 42, 0.4);
-            padding: 16px;
-            border-radius: 12px;
+            padding: 12px 16px;
+            border-radius: 10px;
             overflow: hidden;
-            min-height: 56px;
+            min-height: 48px;
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
 
         .meaning, .synonym {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 500;
             transition: filter 0.3s ease, opacity 0.3s ease;
         }
@@ -199,7 +206,7 @@
             align-items: center;
             justify-content: center;
             color: var(--text-secondary);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             letter-spacing: 0.05em;
             cursor: pointer;
             transition: opacity 0.2s ease;
@@ -209,64 +216,79 @@
             display: none !important;
         }
 
+        /* 3つのボタンを配置するコントロールエリア */
         .controls {
             display: flex;
-            gap: 16px;
-            margin-top: 30px;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
             width: 100%;
         }
 
         button.control-btn {
-            flex: 1;
-            padding: 16px 24px;
+            padding: 14px 20px;
             border: none;
-            border-radius: 14px;
-            font-size: 1rem;
+            border-radius: 12px;
+            font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .btn-action {
+            width: 100%;
             background: var(--btn-bg);
             color: #ffffff;
-            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
         }
 
         .btn-action:hover {
             background: var(--btn-hover);
-            transform: translateY(-2px);
         }
 
-        .btn-next {
+        .btn-nav {
+            flex: 1;
             background: rgba(255, 255, 255, 0.05);
             color: var(--text-primary);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .btn-next:hover {
+        .btn-nav:hover {
             background: rgba(255, 255, 255, 0.1);
             border-color: rgba(255, 255, 255, 0.2);
         }
 
+        /* 最初の単語で「戻る」ボタンを押せなくするスタイル */
+        button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
         button:active {
-            transform: translateY(0);
+            transform: scale(0.98);
         }
 
         @media (max-width: 480px) {
             .card {
-                padding: 30px 20px;
-                min-height: 420px;
+                padding: 24px 16px;
+                min-height: 320px;
             }
             .word {
-                font-size: 2.2rem;
+                font-size: 2rem;
             }
             .sentence {
-                font-size: 1rem;
+                font-size: 0.95rem;
             }
         }
     </style>
@@ -277,6 +299,8 @@
         <div class="header">
             <h1>Vocabulary Builder</h1>
             <p>Intermediate Level</p>
+            <!-- 進行状況を表示するカウンタ -->
+            <div class="counter" id="counter">WORD 1 OF --</div>
         </div>
 
         <div class="card" id="card">
@@ -288,7 +312,7 @@
                 <div class="sentence-header">
                     <div class="section-label">Example Sentence</div>
                     <button class="audio-btn" onclick="speakCurrentSentence()" title="Listen to sentence">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
                     </button>
                 </div>
                 <div class="sentence" id="sentence">The government will allocate more funds to education.</div>
@@ -314,8 +338,14 @@
         </div>
 
         <div class="controls">
+            <!-- メインのアクションボタン -->
             <button class="control-btn btn-action" id="actionBtn" onclick="revealAnswers()">Show Answer</button>
-            <button class="control-btn btn-next" onclick="nextWord()">Next Word →</button>
+            
+            <!-- ナビゲーション用の分割ボタン（戻る・進む） -->
+            <div class="nav-buttons">
+                <button class="control-btn btn-nav" id="prevBtn" onclick="prevWord()">← Prev Word</button>
+                <button class="control-btn btn-nav" id="nextBtn" onclick="nextWord()">Next Word →</button>
+            </div>
         </div>
     </div>
 
@@ -348,6 +378,8 @@
             { word: "fundamental", meaning: "基本的な、根本的な", synonym: "basic, essential", sentence: "There is a fundamental difference between the two theories." }
         ];
 
+        // 戻るボタンの実装のため、これまでの出題履歴を記録するスタック
+        let historyStack = [];
         let currentIndex = 0;
         let isRevealed = false;
 
@@ -394,6 +426,13 @@
                 document.getElementById('actionBtn').textContent = "Show Answer";
                 isRevealed = false;
 
+                // 戻るボタンの有効・無効を制御
+                document.getElementById('prevBtn').disabled = (historyStack.length === 0);
+
+                // カウンタの更新表示（現在の位置 / 総単語数）
+                const displayNum = historyStack.length + 1;
+                document.getElementById('counter').textContent = `WORD ${displayNum} OF ${vocabularyData.length}`;
+
                 card.style.opacity = 1;
                 card.style.transform = 'translateY(0) scale(1)';
                 
@@ -417,6 +456,9 @@
         }
 
         function nextWord() {
+            // 現在のインデックスを履歴に保存
+            historyStack.push(currentIndex);
+            
             let nextIndex = currentIndex;
             while (nextIndex === currentIndex) {
                 nextIndex = Math.floor(Math.random() * vocabularyData.length);
@@ -425,12 +467,22 @@
             updateCard();
         }
 
+        function prevWord() {
+            if (historyStack.length > 0) {
+                // 履歴から直前のインデックスを取り出して戻る
+                currentIndex = historyStack.pop();
+                updateCard();
+            }
+        }
+
         if ('speechSynthesis' in window) {
             window.speechSynthesis.onvoiceschanged = function() {};
         }
 
         window.onload = function() {
-            nextWord();
+            // 初回起動時、履歴は空の状態で最初の単語を表示
+            currentIndex = Math.floor(Math.random() * vocabularyData.length);
+            updateCard();
         };
     </script>
 </body>
